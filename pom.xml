@@ -11,8 +11,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tc.source.dir>${project.build.directory}/dependency/apache-tomcat-${tc.version}</tc.source.dir>
-    <tc.final.dir>${project.build.directory}/dependency/tomcat-${tc.generic.version}</tc.final.dir>
+    <extracted.dir>${project.build.directory}/dependency</extracted.dir>
   </properties>
 
   <build>
@@ -30,10 +29,11 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.apache.tomcat</groupId>
-                  <artifactId>tomcat</artifactId>
+                  <groupId>${tc.groupId}</groupId>
+                  <artifactId>${tc.artifactId}</artifactId>
                   <version>${tc.version}</version>
                   <type>zip</type>
+                  <classifier>${tc.classifier}</classifier>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -75,31 +75,56 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>9.4-1206-jdbc41</version>
+      <version>9.4.1208.jre7</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.190</version>
+      <version>1.4.192</version>
     </dependency>
   </dependencies>
 
   <profiles>
     <profile>
-      <id>tc7</id>
+      <id>tomee1</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <tc.version>7.0.65</tc.version>
+        <tc.groupId>org.apache.openejb</tc.groupId>
+        <tc.artifactId>apache-tomee</tc.artifactId>
+        <tc.version>1.7.4</tc.version>
+        <tc.classifier>plus</tc.classifier>
+        <tc.generic.version>1</tc.generic.version>
+        <tc.source.dir>${extracted.dir}/apache-tomee-plus-${tc.version}</tc.source.dir>
+        <tc.final.dir>${extracted.dir}/tomee-${tc.generic.version}</tc.final.dir>
+      </properties>
+    </profile>
+    <profile>
+      <id>tc7</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <tc.groupId>org.apache.tomcat</tc.groupId>
+        <tc.artifactId>tomcat</tc.artifactId>
+        <tc.version>7.0.69</tc.version>
+        <tc.classifier></tc.classifier>
         <tc.generic.version>7</tc.generic.version>
+        <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
+        <tc.final.dir>${extracted.dir}/tomcat-${tc.generic.version}</tc.final.dir>
       </properties>
     </profile>
     <profile>
       <id>tc8</id>
       <properties>
-        <tc.version>8.0.30</tc.version>
+        <tc.groupId>org.apache.tomcat</tc.groupId>
+        <tc.artifactId>tomcat</tc.artifactId>
+        <tc.version>8.0.36</tc.version>
+        <tc.classifier></tc.classifier>
         <tc.generic.version>8</tc.generic.version>
+        <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
+        <tc.final.dir>${extracted.dir}/tomcat-${tc.generic.version}</tc.final.dir>
       </properties>
     </profile>
   </profiles>
