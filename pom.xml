@@ -46,6 +46,7 @@
             </goals>
             <configuration>
               <outputDirectory>${tc.final.dir}/lib</outputDirectory>
+              <includeGroupIds>org.postgresql,com.h2database</includeGroupIds>
             </configuration>
           </execution>
         </executions>
@@ -62,7 +63,6 @@
               <goal>rename</goal>
             </goals>
             <configuration>
-              <ignoreFileNotFoundOnIncremental>true</ignoreFileNotFoundOnIncremental>
               <sourceFile>${tc.source.dir}</sourceFile>
               <destinationFile>${tc.final.dir}</destinationFile>
             </configuration>
@@ -70,6 +70,36 @@
         </executions>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build 
+          itself. -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <versionRange>[1.5.0,)</versionRange>
+                    <goals>
+                      <goal>exec</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore></ignore>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <dependencies>
@@ -144,6 +174,54 @@
             <filtering>true</filtering>
           </resource>
         </resources>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>unpack-idm-agent</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>com.github.sellersj</groupId>
+                      <artifactId>hello-world</artifactId>
+                      <version>0.0.1-SNAPSHOT</version>
+                      <classifier>bin</classifier>
+                      <type>zip</type>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>${project.build.directory}/idm-agent</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.5.0</version>
+            <executions>
+              <execution>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <executable>./hello.sh</executable>
+              <workingDirectory>${project.build.directory}/idm-agent/my-zip/bin</workingDirectory>
+              <!-- <arguments> -->
+              <!-- <argument>-X</argument> -->
+              <!-- <argument>myproject:dist</argument> -->
+              <!-- </arguments> -->
+            </configuration>
+          </plugin>
+        </plugins>
       </build>
     </profile>
   </profiles>
