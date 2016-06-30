@@ -5,7 +5,7 @@
   <groupId>com.github.sellersj</groupId>
   <artifactId>tomcat-extractor</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <name>tomcat-extractor</name>
 
@@ -62,6 +62,7 @@
               <goal>rename</goal>
             </goals>
             <configuration>
+              <ignoreFileNotFoundOnIncremental>true</ignoreFileNotFoundOnIncremental>
               <sourceFile>${tc.source.dir}</sourceFile>
               <destinationFile>${tc.final.dir}</destinationFile>
             </configuration>
@@ -126,6 +127,24 @@
         <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
         <tc.final.dir>${extracted.dir}/tomcat-${tc.generic.version}</tc.final.dir>
       </properties>
+    </profile>
+    <profile>
+      <id>idm</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <idm.username>bob</idm.username>
+        <idm.url>http:localhost:8080</idm.url>
+      </properties>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
+      </build>
     </profile>
   </profiles>
 </project>
