@@ -99,36 +99,6 @@
         </executions>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build 
-          itself. -->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <versionRange>[1.5.0,)</versionRange>
-                    <goals>
-                      <goal>exec</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore></ignore>
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
 
   <dependencies>
@@ -168,7 +138,7 @@
       <properties>
         <tc.groupId>org.apache.tomcat</tc.groupId>
         <tc.artifactId>tomcat</tc.artifactId>
-        <tc.version>7.0.69</tc.version>
+        <tc.version>7.0.70</tc.version>
         <tc.classifier></tc.classifier>
         <tc.generic.version>7</tc.generic.version>
         <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
@@ -230,25 +200,31 @@
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.5.0</version>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.0.1</version>
             <executions>
               <execution>
                 <id>copy-tc-for-idm-specific</id>
                 <phase>process-resources</phase>
                 <goals>
-                  <goal>exec</goal>
+                  <goal>copy-resources</goal>
                 </goals>
                 <configuration>
-                  <executable>cp</executable>
-                  <arguments>
-                    <argument>-R</argument>
-                    <argument>${tc.final.dir}</argument>
-                    <argument>${tc.final.dir}-idm</argument>
-                  </arguments>
+                  <outputDirectory>${tc.final.dir}-idm</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${tc.final.dir}</directory>
+                    </resource>
+                  </resources>
                 </configuration>
               </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.5.0</version>
+            <executions>
               <execution>
                 <id>run-agent-code</id>
                 <phase>process-resources</phase>
