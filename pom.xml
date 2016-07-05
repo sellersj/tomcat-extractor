@@ -5,7 +5,7 @@
   <groupId>com.github.sellersj</groupId>
   <artifactId>tomcat-extractor</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <name>tomcat-extractor</name>
 
@@ -65,6 +65,25 @@
             <configuration>
               <sourceFile>${tc.source.dir}</sourceFile>
               <destinationFile>${tc.final.dir}</destinationFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.gmaven</groupId>
+        <artifactId>groovy-maven-plugin</artifactId>
+        <version>2.0</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <defaults>
+                <tc.final.dir>${tc.final.dir}</tc.final.dir>
+              </defaults>
+              <source>${project.basedir}/src/main/script/modify-tc.groovy</source>
             </configuration>
           </execution>
         </executions>
@@ -206,20 +225,32 @@
             <version>1.5.0</version>
             <executions>
               <execution>
+                <id>copy-tc-for-idm-specific</id>
                 <phase>process-resources</phase>
                 <goals>
                   <goal>exec</goal>
                 </goals>
+                <configuration>
+                  <executable>cp</executable>
+                  <arguments>
+                    <argument>-R</argument>
+                    <argument>${tc.final.dir}</argument>
+                    <argument>${tc.final.dir}-idm</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>run-agent-code</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>./hello.sh</executable>
+                  <workingDirectory>${project.build.directory}/idm-agent/my-zip/bin</workingDirectory>
+                </configuration>
               </execution>
             </executions>
-            <configuration>
-              <executable>./hello.sh</executable>
-              <workingDirectory>${project.build.directory}/idm-agent/my-zip/bin</workingDirectory>
-              <!-- <arguments> -->
-              <!-- <argument>-X</argument> -->
-              <!-- <argument>myproject:dist</argument> -->
-              <!-- </arguments> -->
-            </configuration>
           </plugin>
         </plugins>
       </build>
