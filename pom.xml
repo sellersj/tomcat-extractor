@@ -150,7 +150,7 @@
       <properties>
         <tc.groupId>org.apache.tomcat</tc.groupId>
         <tc.artifactId>tomcat</tc.artifactId>
-        <tc.version>8.0.36</tc.version>
+        <tc.version>8.5.11</tc.version>
         <tc.classifier></tc.classifier>
         <tc.generic.version>8</tc.generic.version>
         <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
