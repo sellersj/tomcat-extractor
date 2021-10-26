@@ -12,20 +12,22 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <extracted.dir>${project.build.directory}/dependency</extracted.dir>
-    <java.version>1.8</java.version>
+    <java.version>17</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
   </properties>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -82,7 +84,7 @@
       <plugin>
         <groupId>org.codehaus.gmaven</groupId>
         <artifactId>groovy-maven-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.1.1</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
@@ -105,12 +107,12 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>9.4.1208.jre7</version>
+      <version>42.3.0</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.192</version>
+      <version>1.4.200</version>
     </dependency>
   </dependencies>
 
@@ -118,7 +120,7 @@
     <profile>
       <id>tomee1</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
         <tc.groupId>org.apache.openejb</tc.groupId>
@@ -138,7 +140,7 @@
       <properties>
         <tc.groupId>org.apache.tomcat</tc.groupId>
         <tc.artifactId>tomcat</tc.artifactId>
-        <tc.version>7.0.70</tc.version>
+        <tc.version>7.0.109</tc.version>
         <tc.classifier></tc.classifier>
         <tc.generic.version>7</tc.generic.version>
         <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
@@ -147,10 +149,13 @@
     </profile>
     <profile>
       <id>tc8</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
       <properties>
         <tc.groupId>org.apache.tomcat</tc.groupId>
         <tc.artifactId>tomcat</tc.artifactId>
-        <tc.version>8.5.11</tc.version>
+        <tc.version>8.5.72</tc.version>
         <tc.classifier></tc.classifier>
         <tc.generic.version>8</tc.generic.version>
         <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
@@ -158,9 +163,21 @@
       </properties>
     </profile>
     <profile>
+      <id>tc9</id>
+      <properties>
+        <tc.groupId>org.apache.tomcat</tc.groupId>
+        <tc.artifactId>tomcat</tc.artifactId>
+        <tc.version>9.0.54</tc.version>
+        <tc.classifier></tc.classifier>
+        <tc.generic.version>9</tc.generic.version>
+        <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
+        <tc.final.dir>${extracted.dir}/tomcat-${tc.generic.version}</tc.final.dir>
+      </properties>
+    </profile>
+    <profile>
       <id>idm</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
         <idm.username>bob</idm.username>
