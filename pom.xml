@@ -155,7 +155,7 @@
       <properties>
         <tc.groupId>org.apache.tomcat</tc.groupId>
         <tc.artifactId>tomcat</tc.artifactId>
-        <tc.version>8.5.72</tc.version>
+        <tc.version>8.5.73</tc.version>
         <tc.classifier></tc.classifier>
         <tc.generic.version>8</tc.generic.version>
         <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
@@ -167,7 +167,7 @@
       <properties>
         <tc.groupId>org.apache.tomcat</tc.groupId>
         <tc.artifactId>tomcat</tc.artifactId>
-        <tc.version>9.0.54</tc.version>
+        <tc.version>9.0.56</tc.version>
         <tc.classifier></tc.classifier>
         <tc.generic.version>9</tc.generic.version>
         <tc.source.dir>${extracted.dir}/apache-tomcat-${tc.version}</tc.source.dir>
